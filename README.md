@@ -1,2 +1,11 @@
 # leaves-uim
-write a http server with jdk and apache common.
+我要做一个http服务器.
+
+准备自己实现
+- 线程池
+- 简单的锁
+
+
+# 我在干什么
+
+很明显,我不是造轮子,而是学开车.
