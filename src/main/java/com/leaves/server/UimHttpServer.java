@@ -11,14 +11,13 @@ import java.nio.charset.Charset;
 
 // 200 线程   30秒达到7K/s
 // 50  线程   18秒达到7K/s
-
 @Slf4j
 public class UimHttpServer {
     private volatile boolean running = false;
 
     private final UimThreadPool threadPool = new UimThreadPool(20, null, null);
 
-    public void listen(int port, String charsetName) {
+    public void listen(int port, String charsetName) throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (!running) {
                 Socket clientSocket = serverSocket.accept();
@@ -26,9 +25,17 @@ public class UimHttpServer {
                 UimRequestHandler processor = new UimRequestHandler(clientSocket, charset);
                 threadPool.submit(processor);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    }
+
+    /**
+     * 关闭服务器
+     *
+     * @param gracefully 是否优雅地关闭服务器
+     */
+    public void shutdown(boolean gracefully) {
+        this.running = false;
+        this.threadPool.shutdown(gracefully);
     }
 
 

@@ -6,7 +6,7 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
-public class UimRequestHandler   implements Runnable {
+public class UimRequestHandler implements Runnable {
     private final Socket clientSocket;
     private final Charset charset;
 
@@ -23,6 +23,7 @@ public class UimRequestHandler   implements Runnable {
                 BufferedReader reader = new BufferedReader(isr);
         ) {
 
+            // 读取 http 头
             StringBuilder headerBuilder = new StringBuilder();
             String line = reader.readLine();
             while (!line.isEmpty()) {
@@ -34,15 +35,16 @@ public class UimRequestHandler   implements Runnable {
                     "Date: Mon, 25 May 2020 06:30:21 GMT\n" +
                     "Content-Type: text/json; charset=UTF-8\n";
 
-            OutputStream outputStream = clientSocket.getOutputStream();
-            IOUtils.write(resp, outputStream, "UTF-8");
-            outputStream.write('\n');
-            IOUtils.write("{\"hostName\":\"a very sample http server\"}", outputStream, "UTF-8");
-            outputStream.close();
-            is.close();
+
+            try (OutputStream outputStream = clientSocket.getOutputStream()) {
+                IOUtils.write(resp, outputStream, "UTF-8");
+                outputStream.write('\n');
+                IOUtils.write("{\"hostName\":\"a very sample http server\"}", outputStream, "UTF-8");
+            }
+
             clientSocket.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("error while handling a http request", e);
         }
     }
 }
