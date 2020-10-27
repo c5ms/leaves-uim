@@ -1,10 +1,9 @@
 package com.leaves.server;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class UimRequestHandler implements Runnable {
     private final Socket clientSocket;
@@ -37,9 +36,10 @@ public class UimRequestHandler implements Runnable {
 
 
             try (OutputStream outputStream = clientSocket.getOutputStream()) {
-                IOUtils.write(resp, outputStream, "UTF-8");
+                outputStream.write(resp.getBytes(StandardCharsets.UTF_8));
                 outputStream.write('\n');
-                IOUtils.write("{\"hostName\":\"a very sample http server\"}", outputStream, "UTF-8");
+                String json="{\"hostName\":\"a very sample http server\"}";
+                outputStream.write(json.getBytes(StandardCharsets.UTF_8));
             }
 
             clientSocket.close();

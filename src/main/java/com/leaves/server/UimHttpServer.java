@@ -11,7 +11,6 @@ import java.nio.charset.Charset;
 
 // 200 线程   30秒达到7K/s
 // 50  线程   18秒达到7K/s
-@Slf4j
 public class UimHttpServer {
     private volatile boolean running = false;
 
