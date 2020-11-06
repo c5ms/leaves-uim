@@ -62,9 +62,10 @@ public class TopicManager {
             TopicConfig configData = serializer.deserialize(config.getBytes(), TopicConfig.class);
 
             Path topicDataPath = Paths.get(properties.getDataDir(), GuardConstants.NS_TOPIC_DATA);
-            Topic topic = new Topic();
-            topic.setDataDir(topicDataPath.toString());
-            topic.setQueueName(name);
+            Topic topic = Topic.builder()
+                    .dataDir(topicDataPath.toString())
+                    .queueName(name)
+                    .build();
             topic.start();
             topics.put(name, topic);
         } catch (IOException e) {

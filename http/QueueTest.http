@@ -1,4 +1,8 @@
-POST http://localhost:6666/queue/{{topic}}
+GET http://localhost:{{port}}/topic/test-01?subscriber=1
+Accept: application/json
+
+###
+POST http://localhost:{{port}}/topic/{{topic}}
 Content-Type: application/json
 
-{"asd":"asdas"}
+我是消息
