@@ -1,0 +1,4 @@
+POST http://localhost:6666/queue/{{topic}}
+Content-Type: application/json
+
+{"asd":"asdas"}
