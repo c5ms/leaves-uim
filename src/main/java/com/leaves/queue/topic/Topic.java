@@ -14,7 +14,6 @@ import java.util.concurrent.locks.*;
 @Slf4j
 @Setter
 @Getter
-
 public class Topic extends AbstractLifecycle {
 
     private final String dataDir;
